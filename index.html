@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>echarts自定义图片</title>
+    <style>
+        #main {
+            width: 600px;
+            height: 600px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+</body>
+<script src="js/echarts.min.js"></script>
+<script>
+    var main = echarts.init(document.getElementById('main'))
+    var data = [70,30]
+    let symbols = [
+        'path://M380,1585,l0,-85,-95,0,-95,0,0,-80,0,-80,95,0,95,0,0,-64,0,-64,-52,-16,c-125,-40,-249,-158,-300,-284,-19,-49,-23,-75,-23,-182,0,-124,0,-126,37,-203,93,-195,300,-306,513,-276,61,8,144,36,183,60,24,15,51,-3,137,-90,l59,-61,-112,0,-112,0,0,-80,0,-80,250,0,250,0,0,245,0,245,-80,0,-80,0,0,-107,0,-108,-84,84,-84,84,23,36,c84,127,92,316,21,466,-70,147,-182,231,-358,269,-27,6,-28,9,-28,66,l0,60,90,0,90,0,0,80,0,80,-90,0,-90,0,0,85,0,85,-80,0,-80,0,0,-85z,m265,-539,c65,-33,128,-99,163,-174,34,-72,38,-191,9,-261,-44,-107,-131,-185,-241,-217,-242,-68,-486,158,-436,403,16,78,43,127,98,182,107,107,270,133,407,67z'
+    ];
+
+    let bodyMax = 100;
+    
+    let labelSetting = {
+        normal: {
+            show: true,
+            position: 'outside',
+            offset: [0, -20],
+            formatter: function (param) {
+                return (param.value / bodyMax * 100).toFixed(0) + '%';
+            },
+            textStyle: {
+                fontSize: 18,
+                fontFamily: 'Arial'
+            },
+            show: false
+        }
+    };
+    
+    let option = {}
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br /> {c}%"
+        },
+        legend: {
+            data: ['typeA'],
+            selectedMode: 'single',
+            show: false
+        },
+        xAxis: {
+            data: [''],
+            axisTick: {show: false},
+            axisLine: {show: false},
+            axisLabel: {show: false},
+            show: false
+        },
+        yAxis: {
+            max: bodyMax,
+            offset: 20,
+            splitLine: {show: false},
+            show: false
+        },
+        grid: {
+            top: 'center',
+            width: 121,
+            height: 140
+        },
+        markLine: {
+            z: -100
+        },
+        series: [{
+            name: '女',
+            type: 'pictorialBar',
+            symbolClip: true,
+            symbolBoundingData: bodyMax,
+            label: labelSetting,
+            color: '#febf12',
+            data: [{
+                value: data[0],
+                symbol: symbols[0]
+            }],
+            z: 10
+        }, {
+            name: '男',
+            type: 'pictorialBar',
+            symbolBoundingData: bodyMax,
+            animationDuration: 0,
+            itemStyle: {
+                normal: {
+                    color: '#3f9bff'
+                }
+            },
+            data: [{
+                value: data[1],
+                symbol: symbols[0]
+            }]
+        }]
+    };
+    main.setOption(option)
+</script>
+</html>
